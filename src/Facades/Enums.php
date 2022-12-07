@@ -8,6 +8,6 @@ class Enums extends Facade
 {
     public static function getFacadeAccessor()
     {
-        return 'enums';
+        return 'legacyEnums';
     }
 }
