@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\Enums\Traits;
 
-trait Enum
+trait Select
 {
     public static function random(): self
     {
