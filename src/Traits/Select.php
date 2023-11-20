@@ -2,6 +2,8 @@
 
 namespace LaravelEnso\Enums\Traits;
 
+use Illuminate\Support\Collection;
+
 trait Select
 {
     public static function random(): self
@@ -11,8 +13,9 @@ trait Select
 
     public static function select(): array
     {
-        return self::cases()
+        return Collection::wrap(self::cases())
             ->map(fn ($value, $key) => (object) ['id' => $key, 'name' => $value])
-            ->values();
+            ->values()
+            ->toArray();
     }
 }
