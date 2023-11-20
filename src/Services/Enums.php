@@ -6,6 +6,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use LaravelEnso\Enums\Contracts\Mappable;
+use ReflectionEnum;
 
 class Enums
 {
@@ -33,8 +35,20 @@ class Enums
     private function map(string $enum): Collection
     {
         return Collection::wrap($enum::cases())
+            ->when($this->mappable($enum), fn ($cases) => $cases
+                ->map(fn ($case) => [
+                    'name' => $case->map(),
+                    'value' => $case->value,
+                ]))
             ->pluck('name', 'value')
             ->map(fn ($value) => $this->label($value));
+    }
+
+    private function mappable(string $enum): bool
+    {
+        $reflection = new ReflectionEnum($enum);
+
+        return $reflection->implementsInterface(Mappable::class);
     }
 
     private function label(string $value): string
