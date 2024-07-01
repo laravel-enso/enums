@@ -14,8 +14,10 @@ trait Select
     public static function select(): array
     {
         return Collection::wrap(self::cases())
-            ->map(fn ($value, $key) => (object) ['id' => $key, 'name' => $value])
-            ->values()
+            ->map(fn ($enum) => [
+                'id' => $enum->value,
+                'name' => $enum->name,
+            ])->values()
             ->toArray();
     }
 }
