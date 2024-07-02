@@ -8,7 +8,8 @@
     "homepage": "https://github.com/laravel-enso/enums",
     "type": "library",
     "license": "MIT",
-    "authors": [{
+    "authors": [
+        {
             "name": "Reza Fouladi",
             "email": "raftx24@gmail.com",
             "homepage": "https://laravel-enso.com",

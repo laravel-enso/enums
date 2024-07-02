@@ -3,7 +3,8 @@
 namespace LaravelEnso\Enums\State;
 
 use LaravelEnso\Core\Contracts\ProvidesState;
-use LaravelEnso\Enums\Facades\Enums as Facade;
+use LaravelEnso\Enums\Facades\Enums as LegacyFacade;
+use LaravelEnso\Enums\Services\Enums as Service;
 
 class Enums implements ProvidesState
 {
@@ -14,6 +15,6 @@ class Enums implements ProvidesState
 
     public function state(): mixed
     {
-        return Facade::all();
+        return array_merge((new Service())->handle(), LegacyFacade::all());
     }
 }

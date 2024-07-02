@@ -3,40 +3,60 @@
 namespace LaravelEnso\Enums\Services;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use LaravelEnso\Enums\Contracts\Mappable;
+use ReflectionEnum;
 
 class Enums
 {
-    private $enums;
-
-    public function __construct()
+    public function handle(): array
     {
-        $this->enums = new Collection();
+        return $this->enums()
+            ->mapWithKeys(fn ($enum) => [
+                $enum::registerBy() => $this->map($enum),
+            ])->toArray();
     }
 
-    public function register($enums)
+    private function enums(): Collection
     {
-        Collection::wrap($enums)
-            ->each(fn ($enum, $key) => $this->enums->put($key, $enum));
+        return Collection::wrap(Config::get('enso.enums.vendors'))
+            ->map(fn ($vendor) => base_path("vendor/{$vendor}"))
+            ->map(fn ($vendor) => File::directories($vendor))
+            ->flatten()
+            ->push(base_path())
+            ->mapInto(Source::class)
+            ->map->get()
+            ->filter->isNotEmpty()
+            ->collapse();
     }
 
-    public function remove($aliases)
+    private function map(string $enum): Collection
     {
-        Collection::wrap($aliases)
-            ->each(fn ($alias) => $this->enums->forget($alias));
+        return Collection::wrap($enum::cases())
+            ->when($this->mappable($enum), fn ($cases) => $cases
+                ->map(fn ($case) => [
+                    'name' => $case->map(),
+                    'value' => $case->value,
+                ]))
+            ->pluck('name', 'value')
+            ->map(fn ($value) => $this->label($value));
     }
 
-    public function all()
+    private function mappable(string $enum): bool
     {
-        return $this->enums->map(fn ($enum) => is_array($enum) ? $enum : $this->map($enum));
+        $reflection = new ReflectionEnum($enum);
+
+        return $reflection->implementsInterface(Mappable::class);
     }
 
-    private function map(string $enum)
+    private function label(string $value): string
     {
-        $enum::localisation(false);
-        $all = App::make($enum)::all();
-        $enum::localisation(true);
+        $string = Str::of($value);
 
-        return $all;
+        return $string->exactly($string->upper())
+            ? $string->title()
+            : $string->snake(' ')->title();
     }
 }
