@@ -5,7 +5,6 @@ namespace LaravelEnso\Enums\Services;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 use LaravelEnso\Enums\Contracts\Mappable;
 use ReflectionEnum;
 
@@ -40,8 +39,7 @@ class Enums
                     'name' => $case->map(),
                     'value' => $case->value,
                 ]))
-            ->pluck('name', 'value')
-            ->map(fn ($value) => $this->label($value));
+            ->pluck('name', 'value');
     }
 
     private function mappable(string $enum): bool
@@ -49,14 +47,5 @@ class Enums
         $reflection = new ReflectionEnum($enum);
 
         return $reflection->implementsInterface(Mappable::class);
-    }
-
-    private function label(string $value): string
-    {
-        $string = Str::of($value);
-
-        return $string->exactly($string->upper())
-            ? $string->title()
-            : $string->snake(' ')->title();
     }
 }
