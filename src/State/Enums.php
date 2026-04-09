@@ -8,13 +8,15 @@ use LaravelEnso\Enums\Services\Enums as Service;
 
 class Enums implements ProvidesState
 {
-    public function mutation(): string
+    public function store(): string
     {
-        return 'setEnums';
+        return 'enums';
     }
 
-    public function state(): mixed
+    public function state(): array
     {
-        return array_merge((new Service())->handle(), LegacyFacade::all());
+        $enums = array_merge((new Service())->handle(), LegacyFacade::all());
+
+        return ['enums' => $enums];
     }
 }
