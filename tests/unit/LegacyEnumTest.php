@@ -19,7 +19,7 @@ class LegacyEnumTest extends TestCase
     public function returns_public_constants_only(): void
     {
         $this->assertSame([
-            'draft' => 'Draft',
+            'draft'     => 'Draft',
             'published' => 'Published',
         ], LegacyStatus::constants());
     }

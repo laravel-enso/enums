@@ -22,7 +22,7 @@ class LegacyEnumsTest extends TestCase
 
         $this->assertSame([
             'statuses' => [
-                'draft' => 'Draft',
+                'draft'     => 'Draft',
                 'published' => 'Published',
             ],
         ], $enums->all());
@@ -43,14 +43,14 @@ class LegacyEnumsTest extends TestCase
     {
         $enums = new LegacyEnums();
         $enums->register([
-            'mapped' => ['foo' => 'bar'],
+            'mapped'   => ['foo' => 'bar'],
             'statuses' => LegacyStatus::class,
         ]);
 
         $this->assertSame([
-            'mapped' => ['foo' => 'bar'],
+            'mapped'   => ['foo' => 'bar'],
             'statuses' => [
-                'draft' => 'Draft',
+                'draft'     => 'Draft',
                 'published' => 'Published',
             ],
         ], $enums->all());
@@ -72,7 +72,7 @@ class LegacyEnumsTest extends TestCase
 
         $this->assertSame([
             'statuses' => [
-                'draft' => 'Draft',
+                'draft'     => 'Draft',
                 'published' => 'Published',
             ],
         ], EnumsFacade::all());

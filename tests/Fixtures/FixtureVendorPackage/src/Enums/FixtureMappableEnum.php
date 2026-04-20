@@ -18,7 +18,7 @@ enum FixtureMappableEnum: int implements Frontend, Mappable
     public function map(): mixed
     {
         return match ($this) {
-            self::Draft => 'Mapped Draft',
+            self::Draft     => 'Mapped Draft',
             self::Published => 'Mapped Published',
         };
     }

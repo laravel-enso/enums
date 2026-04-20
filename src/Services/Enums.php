@@ -36,7 +36,7 @@ class Enums
         return Collection::wrap($enum::cases())
             ->when($this->mappable($enum), fn ($cases) => $cases
                 ->map(fn ($case) => [
-                    'name' => $case->map(),
+                    'name'  => $case->map(),
                     'value' => $case->value,
                 ]))
             ->pluck('name', 'value');

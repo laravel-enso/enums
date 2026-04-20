@@ -22,11 +22,11 @@ trait Select
             ->when(
                 $mappable,
                 fn ($cases) => $cases->map(fn ($case) => [
-                    'id' => $case->value,
+                    'id'   => $case->value,
                     'name' => $case->map(),
                 ]),
                 fn ($cases) => $cases->map(fn ($case) => [
-                    'id' => $case->value,
+                    'id'   => $case->value,
                     'name' => $case->name,
                 ])
             )->values()->toArray();

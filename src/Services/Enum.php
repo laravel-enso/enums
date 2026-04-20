@@ -32,7 +32,7 @@ class Enum
 
     public static function get($key)
     {
-        if (static::$validatesKeys && ! self::has($key)) {
+        if (static::$validatesKeys && !self::has($key)) {
             throw Exception::keyNotFound();
         }
 
@@ -103,7 +103,7 @@ class Enum
 
     private static function source(): array
     {
-        if (! empty(static::data())) {
+        if (!empty(static::data())) {
             return static::data();
         }
 
