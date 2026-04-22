@@ -33,7 +33,7 @@ class SourceAndStateTest extends TestCase
     public function maps_mappable_and_non_mappable_enums_for_frontend_state(): void
     {
         $this->installRuntimeFixturePackage();
-        config()->set('enso.enums.vendors', ['laravel-enso-fixture']);
+        config()->set('enso.enums.vendors', [$this->runtimeFixtureVendor()]);
 
         $state = (new EnumService())->handle();
 
@@ -52,7 +52,7 @@ class SourceAndStateTest extends TestCase
     public function exposes_native_enums_under_the_enums_store_key(): void
     {
         $this->installRuntimeFixturePackage();
-        config()->set('enso.enums.vendors', ['laravel-enso-fixture']);
+        config()->set('enso.enums.vendors', [$this->runtimeFixtureVendor()]);
 
         $state = (new EnumState())->state();
 
